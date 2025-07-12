@@ -8,12 +8,12 @@ from torchvision import transforms
 import torch
 # Initialize the ReID model
 model_reid = torchreid.models.build_model(
-    name='osnet_x0_25',  # Lightweight and fast
+    name='osnet_x0_25',  
     num_classes=1000,
     pretrained=True
 )
 model_reid.eval()
-model_reid.cuda()  # Remove this line if you do not have a GPU
+model_reid.cuda()  
 
 
 
@@ -36,17 +36,7 @@ def get_reid_embedding(image, bbox):
         embedding = model_reid(crop.cuda()).cpu().numpy().flatten()
     return embedding
 
-#  # Function to extract appearance features using ReID model
-# def extract_appearance_features(image, bbox):
-#     x1, y1, x2, y2 = bbox
-#     crop = image[y1:y2, x1:x2]
-#     if crop.size == 0:
-#         return None
-#     crop = cv2.resize(crop, (256, 128))  # Resize to fit ReID model input
-#     crop = torch.from_numpy(crop).permute(2, 0, 1).float().unsqueeze(0).cuda()  # Convert to tensor and move to GPU
-#     with torch.no_grad():
-#         features = model_reid(crop)
-#     return features.cpu().numpy().flatten()  # Move back to CPU and flatten the array
+
 
 
 # Function to extract color histogram for appearance features
@@ -70,7 +60,7 @@ def update_appearance_history(track_id, frame, bbox):
         if len(track_appearances[track_id]) > 5:  # Keep last 5 appearances
             track_appearances[track_id].pop(0)
 
-# Load YOLOv8 model
+# Load YOLOv11 model
 model = YOLO('best.pt')
 
 # Initialize DeepSORT tracker
